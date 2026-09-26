@@ -39,7 +39,6 @@ Anything in `[square brackets]` is a placeholder. Search `src` for `[` to find t
 - Connect the contact and first-timer forms to a backend (e.g. Formspree)
 - Swap the drawn map for an embedded Google Map (`Contact.astro`)
 - Confirm the testimonials are real reviews (`Testimonials.astro`)
-- Confirm the vaccination list in the FAQ (rabies was removed; see the note in `faq.ts`)
 - Decide on the "Groom & Stay" sticker and badge (`Hero.astro`, `Offer.astro`)
 
 Meet the Team was taken out on purpose. It isn't on the site.

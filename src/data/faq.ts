@@ -6,9 +6,7 @@ export const faq = [
   },
   {
     q: 'What vaccinations does my dog need?',
-    // [Confirm] The old site also listed rabies. Australia is rabies-free and dogs here aren't
-    // routinely vaccinated for it, so it's been left out. Check this list matches your policy.
-    a: 'For the health and safety of every dog, we need proof of up-to-date vaccinations, including distemper, parvovirus and Bordetella (kennel cough).',
+    a: 'For the health and safety of every dog, we need proof of up-to-date vaccinations, including rabies, distemper, parvovirus and Bordetella (kennel cough).',
   },
   {
     q: 'Can I tour the facility before enrolling my dog?',
