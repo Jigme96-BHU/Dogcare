@@ -1,0 +1,117 @@
+---
+import Header from '../Header.astro';
+import Button from '../Button.astro';
+import Polaroid from '../Polaroid.astro';
+import TimeNote from '../TimeNote.astro';
+import Bone from '../Bone.astro';
+import { links } from '../../data/site';
+import { photos } from '../../data/images';
+---
+<div class="hero-wrap bg-peach">
+  <Bone style="left: 39%; top: 120px; width: 64px; rotate: 32deg; opacity: .55" />
+  <Bone style="left: 3%; bottom: 80px; width: 96px; rotate: -16deg; opacity: .55" />
+
+  <Header />
+
+  <div class="hero container">
+    <div class="hero__copy">
+      <TimeNote time="7:30am" label="Drop-off" />
+      <h1>
+        Play, pamper, <span class="squiggle">stay as long<svg aria-hidden="true" viewBox="0 0 240 14" preserveAspectRatio="none"><path d="M2 8 Q 17 1 32 8 T 62 8 T 92 8 T 122 8 T 152 8 T 182 8 T 212 8 T 238 8" /></svg></span> as you like
+      </h1>
+      <p class="hero__lead">
+        Daycare and grooming under one roof. Book a groom and your dog can spend the rest of the day
+        playing in our huge play space. Pick them up whenever suits you.
+      </p>
+      <p class="hero__meta">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><g fill="var(--pink)"><ellipse cx="12" cy="16.5" rx="5.2" ry="4.4" /><circle cx="5.5" cy="10.5" r="2.3" /><circle cx="9.5" cy="6.2" r="2.3" /><circle cx="14.5" cy="6.2" r="2.3" /><circle cx="18.5" cy="10.5" r="2.3" /></g></svg>
+        Open Tuesday to Thursday<span aria-hidden="true">·</span>Mitchell, Canberra
+      </p>
+      <div class="hero__ctas">
+        <Button href={links.bookDaycare} size="lg">Book Daycare</Button>
+        <Button href={links.bookGrooming} variant="secondary" size="lg">Book Grooming</Button>
+        <Button href={links.tour} variant="outline" size="lg">Take a Tour</Button>
+      </div>
+    </div>
+
+    <div class="hero__photos">
+      <Polaroid class="hp hp--1" src={photos.grass} eager sizes="(max-width: 600px) 230px, 400px" alt="A happy dog stretched out on the lawn" caption="sunbathing on the lawn" tilt={4} tape="peach" delay={1} />
+      <Polaroid class="hp hp--2" src={photos.group} eager sizes="(max-width: 600px) 180px, 280px" alt="Four fluffy friends lined up" caption="the morning crew" tilt={-7} tape="mint" delay={2} />
+      <Polaroid class="hp hp--3" src={photos.space} sizes="256px" alt="The bright indoor play space" caption="our indoor playground" ratio="4 / 3" tilt={5} tape="peach" delay={3} />
+      <!-- [Decide] leftover "Groom & Stay" sticker: keep, reword or remove -->
+      <div class="sticker">
+        <span class="hand">New!</span>
+        <span class="sticker__title">Groom<br />&amp; Stay</span>
+      </div>
+      <Bone class="hp-bone" style="left: 38%; bottom: 40px; width: 70px; rotate: -24deg; opacity: .9" />
+    </div>
+  </div>
+
+  <svg class="hero__wave" aria-hidden="true" viewBox="0 0 1440 56" preserveAspectRatio="none">
+    <path d="M0 28 Q45 0 90 28 T180 28 T270 28 T360 28 T450 28 T540 28 T630 28 T720 28 T810 28 T900 28 T990 28 T1080 28 T1170 28 T1260 28 T1350 28 T1440 28 V56 H0 Z" fill="var(--cream)" />
+  </svg>
+</div>
+
+<style>
+  .hero-wrap { position: relative; overflow: hidden; }
+  .hero {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s3);
+    align-items: center;
+    padding-top: var(--s3); padding-bottom: 120px;
+  }
+  .hero__copy { grid-column: span 6; display: flex; flex-direction: column; gap: var(--s3); }
+
+  h1 { font-size: var(--fs-h1); line-height: 1.04; color: var(--deep-teal); letter-spacing: -0.01em; }
+  .squiggle { display: inline-block; position: relative; }
+  .squiggle svg { position: absolute; left: 0; right: 0; bottom: -8px; width: 100%; height: 14px; }
+  .squiggle path { fill: none; stroke: var(--pink); stroke-width: 4; stroke-linecap: round; }
+
+  .hero__lead { font-size: var(--fs-lead); line-height: 1.6; max-width: 540px; }
+  .hero__meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--s1);
+    font-size: clamp(16px, 0.9rem + 0.3vw, 18px); font-weight: 600;
+  }
+  .hero__meta span { color: var(--pink); }
+  .hero__ctas { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s1); }
+
+  /* Photo collage */
+  .hero__photos { grid-column: 7 / span 6; position: relative; height: 640px; }
+  .hero__photos :global(.hp) { position: absolute; }
+  .hero__photos :global(.hp--1) { width: 62.5%; max-width: 400px; right: 0; top: 8px; }
+  .hero__photos :global(.hp--2) { width: 44%; max-width: 280px; left: 24px; top: 232px; }
+  .hero__photos :global(.hp--3) { width: 40%; max-width: 256px; right: 48px; bottom: 0; }
+
+  .sticker {
+    position: absolute; left: 40px; top: 24px; z-index: 2;
+    width: 152px; height: 152px; border-radius: var(--r-pill);
+    background: var(--mint); rotate: -10deg;
+    box-shadow: 0 6px 16px rgba(46, 58, 59, 0.15);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center;
+  }
+  .sticker .hand { font-size: 24px; color: var(--plum); line-height: 1; }
+  .sticker__title { font-family: var(--font-head); font-size: 24px; line-height: 1.05; }
+
+  .hero__wave { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: clamp(32px, 4vw, 56px); display: block; }
+
+  /* Tablet: stack copy over the collage */
+  @media (max-width: 1023px) {
+    .hero { grid-template-columns: 1fr; row-gap: var(--s4); padding-bottom: 72px; }
+    .hero__copy, .hero__photos { grid-column: 1 / -1; }
+    .hero__photos { height: 520px; max-width: 640px; width: 100%; justify-self: center; }
+  }
+
+  /* Phone: two photos, full-width buttons */
+  @media (max-width: 599px) {
+    .hero__ctas { flex-direction: column; gap: var(--s1); }
+    .hero__ctas :global(.btn) { width: 100%; }
+    .hero__photos { height: 400px; margin-top: var(--s1); }
+    .hero__photos :global(.hp--1) { width: 230px; top: 0; }
+    .hero__photos :global(.hp--2) { width: 180px; left: 0; top: 150px; }
+    .hero__photos :global(.hp--2 .polaroid__card) { padding: 8px 8px 0; }
+    .hero__photos :global(.hp--3), .hero__photos :global(.hp-bone) { display: none; }
+    .sticker { left: 8px; top: 8px; width: 112px; height: 112px; }
+    .sticker .hand { font-size: 20px; }
+    .sticker__title { font-size: 19px; }
+  }
+</style>

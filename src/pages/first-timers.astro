@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Polaroid from '../components/Polaroid.astro';
+import Icon from '../components/Icon.astro';
+import MoreLink from '../components/MoreLink.astro';
+import { links } from '../data/site';
+import { photos } from '../data/images';
+
+const steps = [
+  { icon: 'chat', title: 'Fill in the form', text: 'Tell us a little about you and your pup.' },
+  { icon: 'phone', title: 'We give you a call', text: 'A quick chat about your dog’s personality, health and routine.' },
+  { icon: 'calendar', title: 'Book their first day', text: 'Once your pup is approved, you can book their very first session.' },
+] as const;
+---
+<Layout title="First Timers | Completely Dogcare" description="New to Completely Dogcare? Fill in our first-timer form and we'll call you to chat about your pup before their first day of daycare.">
+  <PageHeader
+    title="First time here?"
+    intro="We’re so excited to have you join the Completely Dogcare family! Before you book, we’ll give you a call to get to know your pup."
+    note={{ time: '7:30am', label: 'Hello!' }}
+  />
+
+  <main>
+    <section class="section bg-cream">
+      <div class="container">
+        <ol class="grid-3 ft-steps">
+          {steps.map((s, i) => (
+            <li class="card wiggle">
+              <span class="ft-steps__num">{i + 1}</span>
+              <Icon name={s.icon} size={26} color="var(--deep-teal)" />
+              <h2 class="h3">{s.title}</h2>
+              <p>{s.text}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div class="split ft-form">
+          <!-- [Wire up] the form needs a backend (Formspree, Netlify Forms, or the booking system) -->
+          <form class="form" action="#" method="post" id="form">
+            <h2 class="h3">First timer’s enquiry</h2>
+            <div class="form__grid">
+              <label>Your first name<input name="first_name" type="text" autocomplete="given-name" required /></label>
+              <label>Email<input name="email" type="email" autocomplete="email" required /></label>
+              <label>What number should we call you on?<input name="phone" type="tel" autocomplete="tel" required /></label>
+              <label>Your dog’s name<input name="dog_name" type="text" /></label>
+            </div>
+            <label>Anything we should know?<textarea name="notes" rows="5" placeholder="Breed, age, personality, health or dietary needs…"></textarea></label>
+            <button type="submit" class="btn btn--primary btn--lg">Submit</button>
+          </form>
+
+          <div class="prose">
+            <Polaroid src={photos.outside} sizes="(max-width: 1023px) 90vw, 440px" alt="The front of Completely Dogcare with its green yard" caption="see you at the front gate" ratio="4 / 3" tilt={3} tape="peach" />
+            <h2 class="h3">Before the first day</h2>
+            <ul class="tick-list">
+              <li>Proof of up-to-date vaccinations</li>
+              <li>A leash and collar</li>
+              <li>Any medication your dog needs</li>
+              <li>Let us know about medical or dietary needs (we give treats during the day)</li>
+            </ul>
+            <MoreLink href={links.faq}>More questions? Read the FAQ</MoreLink>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .ft-steps { list-style: none; margin: 0; padding: 0; }
+  .ft-steps li { gap: var(--s1); }
+  .ft-steps__num {
+    width: 56px; height: 56px; margin-bottom: var(--s1); border-radius: var(--r-pill);
+    background: var(--teal); font-family: var(--font-head); font-size: 28px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ft-form { align-items: start; }
+  .ft-form .form { grid-column: span 7; }
+  .ft-form .prose { grid-column: 9 / span 4; }
+  @media (max-width: 1023px) {
+    .ft-form .form, .ft-form .prose { grid-column: 1 / -1; }
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+import Polaroid from '../Polaroid.astro';
+import TimeNote from '../TimeNote.astro';
+import MoreLink from '../MoreLink.astro';
+---
+<section class="section bg-cream">
+  <div class="container">
+    <div class="about">
+      <div class="about__photo">
+        <Polaroid placeholder="[Team photo]" caption="the Completely Dogcare family" ratio="5 / 4" tilt={-2} tape="peach" />
+      </div>
+      <div class="about__copy">
+        <TimeNote time="1pm" label="Nap time" />
+        <h2 class="h2">About Completely Dogcare</h2>
+        <p>
+          At Completely Dogcare, we believe that every dog deserves the best care possible. Our boutique doggy
+          daycare provides a safe and fun environment where your furry friend can socialise and play. Our
+          experienced staff are dedicated to ensuring that your dog receives the love and attention they deserve.
+        </p>
+        <p class="placeholder">
+          [Owner’s story, in their own words: how Completely Dogcare started and why they love it. Two or three sentences.]
+        </p>
+        <span class="about__sign hand">— [Owner’s name]</span>
+        <MoreLink href="/about">Learn More</MoreLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s3);
+    align-items: center;
+  }
+  .about__photo { grid-column: span 6; display: flex; justify-content: center; }
+  .about__photo :global(.polaroid) { width: 100%; max-width: 520px; }
+  .about__copy { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: var(--s3); }
+  .about__copy p { font-size: clamp(17px, 1rem + 0.2vw, 19px); line-height: 1.7; }
+  .about__sign { font-size: 28px; color: var(--plum); }
+
+  @media (max-width: 1023px) {
+    .about { grid-template-columns: 1fr; row-gap: var(--s5); }
+    .about__photo, .about__copy { grid-column: 1 / -1; }
+  }
+</style>

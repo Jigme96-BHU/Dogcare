@@ -1,0 +1,123 @@
+---
+import TimeNote from '../TimeNote.astro';
+import MoreLink from '../MoreLink.astro';
+import Icon from '../Icon.astro';
+import { business, links } from '../../data/site';
+
+const details = [
+  { icon: 'phone', label: 'Phone', value: business.phone, href: business.phoneHref },
+  { icon: 'mail', label: 'Email', value: business.email, href: `mailto:${business.email}` },
+  { icon: 'clock', label: 'Hours of Operation', value: business.hours },
+  { icon: 'home', label: 'Area of Service', value: business.area },
+] as const;
+---
+<section class="section bg-cream" id="contact">
+  <div class="container">
+    <div class="section-head">
+      <TimeNote time="6pm" label="Pick-up" align="center" />
+      <h2 class="h2">Got Some Questions?</h2>
+    </div>
+
+    <div class="contact">
+      <div class="contact__info">
+        <dl class="details">
+          {details.map((d) => (
+            <div>
+              <span class="details__icon"><Icon name={d.icon} color="var(--plum)" /></span>
+              <dt class="eyebrow">{d.label}</dt>
+              <dd>{'href' in d ? <a href={d.href}>{d.value}</a> : d.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="map">
+          <!-- [Replace] this drawn map with an embedded Google Map -->
+          <svg aria-hidden="true" viewBox="0 0 520 240" preserveAspectRatio="xMidYMid slice">
+            <rect width="520" height="240" fill="var(--mint-tint)" />
+            <path d="M-10 70 C 120 60, 200 110, 540 90" stroke="#FFFFFF" stroke-width="18" fill="none" />
+            <path d="M150 -10 C 170 80, 140 160, 180 260" stroke="#FFFFFF" stroke-width="14" fill="none" />
+            <path d="M-10 190 C 160 170, 330 200, 540 170" stroke="#FFFFFF" stroke-width="10" fill="none" />
+            <path d="M380 -10 L 350 260" stroke="#FFFFFF" stroke-width="10" fill="none" />
+            <ellipse cx="450" cy="40" rx="70" ry="34" fill="var(--mint)" />
+            <path d="M260 150 C 260 150, 236 124, 236 108 A 24 24 0 0 1 284 108 C 284 124, 260 150, 260 150 Z" fill="var(--pink)" stroke="var(--plum)" stroke-width="3" />
+            <circle cx="260" cy="108" r="8" fill="#FFFFFF" />
+          </svg>
+          <div class="map__foot">
+            <span>{business.address}</span>
+            <a href={business.map}>Open in Google Maps</a>
+          </div>
+        </div>
+
+        <div class="contact__links">
+          <a href={business.facebook} class="fb"><Icon name="facebook" color="var(--deep-teal)" />Like our Facebook page to see daily updates!</a>
+          <MoreLink href={links.faq}>Check Out Our FAQ</MoreLink>
+        </div>
+      </div>
+
+      <!-- [Wire up] the form needs a backend (Formspree, Netlify Forms, or the booking system) -->
+      <form class="form" action="#" method="post">
+        <h3 class="h3">Send an Enquiry</h3>
+        <div class="form__grid">
+          <label>Name<input name="name" type="text" autocomplete="name" required /></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required /></label>
+          <label>Phone<input name="phone" type="tel" autocomplete="tel" /></label>
+          <label>Service
+            <select name="service">
+              <option>Daycare</option>
+              <option>Grooming</option>
+              <option>Groom &amp; Stay</option>
+              <option>Book a tour</option>
+            </select>
+          </label>
+        </div>
+        <label>Message<textarea name="message" rows="5"></textarea></label>
+        <button type="submit" class="btn btn--primary btn--lg">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s3);
+    align-items: start;
+  }
+  .contact__info { grid-column: span 5; display: flex; flex-direction: column; gap: var(--s3); }
+  .form { grid-column: 7 / span 6; }
+
+  .details { margin: 0; }
+  .details > div {
+    display: grid; grid-template-columns: 48px 1fr; column-gap: var(--s2); align-items: center;
+    padding: var(--s2) 0; border-bottom: 2px dashed var(--line);
+  }
+  .details__icon {
+    grid-row: span 2; width: 48px; height: 48px; border-radius: var(--r-pill); background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+  }
+  dt { letter-spacing: 0.1em; }
+  dd { margin: 0; font-size: 18px; font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+  dd a { color: inherit; text-decoration: none; }
+  dd a:hover { color: var(--deep-teal); text-decoration: underline; }
+
+  .map { border-radius: 24px; overflow: hidden; background: var(--white); }
+  .map svg { display: block; width: 100%; height: 240px; }
+  .map__foot {
+    padding: var(--s2) var(--s3);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s1);
+    font-size: 15px; font-weight: 600;
+  }
+  .map__foot a { font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
+
+  .contact__links { display: flex; flex-direction: column; gap: var(--s1); }
+  .fb {
+    display: inline-flex; align-items: center; gap: var(--s1); min-height: 48px;
+    font-weight: 600; font-size: 16px; color: var(--ink); text-decoration: none;
+  }
+  .fb:hover { text-decoration: underline; }
+
+
+  @media (max-width: 1023px) {
+    .contact { grid-template-columns: 1fr; row-gap: var(--s5); }
+    .contact__info, .form { grid-column: 1 / -1; }
+  }
+</style>

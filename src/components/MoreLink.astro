@@ -1,0 +1,9 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+}
+const { href } = Astro.props;
+---
+<a href={href} class="more-link"><slot /><Icon name="arrow" /></a>

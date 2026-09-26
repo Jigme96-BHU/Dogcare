@@ -1,0 +1,74 @@
+---
+import Button from '../Button.astro';
+import MoreLink from '../MoreLink.astro';
+import Icon from '../Icon.astro';
+import Photo from '../Photo.astro';
+import { links, pricing } from '../../data/site';
+import { photos } from '../../data/images';
+
+const services = [
+  { title: 'Casual Daycare', src: photos.mats, alt: 'Play mats, beds and toys in the daycare room', book: links.bookDaycare, more: '/daycare',
+    text: 'A one-off day of supervised play, Tuesday to Thursday, 7:30am – 6pm.', price: pricing.casual },
+  { title: 'Regular Sessions', src: photos.murals, alt: 'The daycare room with its painted murals', book: links.bookDaycare, more: '/daycare#packs',
+    text: 'Coming regularly? Save with a session pack, valid for 12 months.', price: `5 sessions ${pricing.packs[0].price} · 10 sessions ${pricing.packs[1].price}` },
+  { title: 'Grooming', src: undefined, alt: '', book: links.bookGrooming, more: '/grooming', featured: true,
+    text: 'Groom, then stay and play for the rest of the day. [Add grooming details]', price: '[Grooming price]' },
+];
+---
+<section class="section bg-cream">
+  <div class="container">
+    <h2 class="h2" style="text-align:center">What We Offer</h2>
+    <div class="offer">
+      {services.map((s) => (
+        <article class:list={['offer__card', 'wiggle', s.featured && 'offer__card--featured']}>
+          {s.src
+            ? <Photo src={s.src} alt={s.alt} ratio="4 / 3" sizes="(max-width: 1023px) 560px, 420px" />
+            : <div class="photo-placeholder offer__ph">[Grooming photo]</div>}
+          {s.featured && (
+            <span class="offer__badge"><Icon name="sparkle" size={16} />Groom &amp; Stay</span>
+          )}
+          <div class="offer__body">
+            <h3 class="h3">{s.title}</h3>
+            <p>{s.text}</p>
+            <p class="offer__price">{s.price}</p>
+            <div class="offer__actions">
+              <Button href={s.book}>Book Now</Button>
+              <MoreLink href={s.more}>Learn More</MoreLink>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .offer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+  .offer__card {
+    position: relative; overflow: hidden;
+    background: var(--white); border-radius: var(--r-card);
+    display: flex; flex-direction: column;
+  }
+  .offer__card--featured { box-shadow: 0 0 0 3px var(--pink); }
+  .offer__card :global(img), .offer__ph { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .offer__ph { background: var(--pink-tint); }
+  .offer__badge {
+    position: absolute; right: 16px; top: 16px; rotate: 6deg;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: var(--r-pill);
+    background: var(--pink); color: var(--plum);
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 4px 10px rgba(46, 58, 59, 0.18);
+  }
+  .offer__body { padding: var(--s4); display: flex; flex-direction: column; gap: var(--s2); flex-grow: 1; }
+  .offer__body p { font-size: 16px; line-height: 1.6; color: var(--muted); }
+  .offer__price { flex-grow: 1; font-weight: 700; color: var(--plum) !important; }
+  .offer__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+
+  @media (max-width: 1023px) {
+    .offer { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; width: 100%; }
+  }
+  @media (max-width: 599px) {
+    .offer__body { padding: var(--s3); }
+  }
+</style>

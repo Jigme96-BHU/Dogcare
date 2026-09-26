@@ -1,0 +1,75 @@
+---
+import type { ImageMetadata } from 'astro';
+import Photo from './Photo.astro';
+// A tilted polaroid with optional tape. Pass `src` for a photo, or leave it
+// out to show a dashed [placeholder] box until the real photo arrives.
+interface Props {
+  src?: ImageMetadata;
+  sizes?: string;
+  eager?: boolean;
+  alt?: string;
+  placeholder?: string;
+  caption?: string;
+  tilt?: number;
+  tape?: 'peach' | 'mint' | 'pink' | 'white' | 'none';
+  ratio?: string;
+  delay?: 1 | 2 | 3 | 4 | 5;
+  small?: boolean;
+  class?: string;
+  style?: string;
+}
+const {
+  src,
+  sizes,
+  eager,
+  alt = '',
+  placeholder = '[Photo]',
+  caption,
+  tilt = 0,
+  tape = 'none',
+  ratio = '1 / 1',
+  delay = 1,
+  small = false,
+  class: className,
+  style,
+} = Astro.props;
+---
+<figure class:list={['polaroid', small && 'polaroid--small', className]} style={`--tilt:${tilt}deg;${style ?? ''}`}>
+  <div class="wiggle">
+    <div class:list={['polaroid__card', 'drop', `d${delay}`]}>
+      {tape !== 'none' && <span aria-hidden="true" class:list={['polaroid__tape', `tape--${tape}`]} />}
+      {src
+        ? <Photo src={src} alt={alt} ratio={ratio} sizes={sizes} eager={eager} />
+        : <div class="photo-placeholder" style={`aspect-ratio:${ratio}`}>{placeholder}</div>}
+      {caption && <figcaption class="hand">{caption}</figcaption>}
+    </div>
+  </div>
+</figure>
+
+<style>
+  .polaroid { margin: 0; rotate: var(--tilt); }
+  .polaroid__card {
+    position: relative;
+    background: var(--white);
+    padding: 12px 12px 0;
+    border-radius: 4px;
+    box-shadow: var(--shadow-photo);
+  }
+  .polaroid :global(img) { width: 100%; object-fit: cover; display: block; }
+  figcaption {
+    font-size: 24px; line-height: 1.2; text-align: center;
+    color: var(--ink); padding: 12px 4px 16px;
+  }
+  .polaroid--small .polaroid__card { padding: 8px 8px 0; }
+  .polaroid--small figcaption { font-size: 20px; padding: 8px 4px 12px; }
+
+  .polaroid__tape {
+    position: absolute; left: 50%; top: -12px; z-index: 1;
+    width: 72px; height: 22px; margin-left: -36px;
+    rotate: -3deg;
+  }
+  .tape--peach { background: rgba(255, 211, 189, 0.85); }
+  .tape--mint { background: rgba(155, 204, 172, 0.85); }
+  .tape--pink { background: rgba(216, 129, 178, 0.6); }
+  .tape--white { background: rgba(255, 255, 255, 0.7); }
+</style>

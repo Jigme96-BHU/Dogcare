@@ -1,0 +1,105 @@
+---
+import TimeNote from '../TimeNote.astro';
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import Photo from '../Photo.astro';
+import { business } from '../../data/site';
+import { photos } from '../../data/images';
+
+const feed = [
+  { src: photos.eat, alt: 'Treat time' },
+  { src: photos.play, alt: 'Ball pit fun' },
+  { src: photos.repeat, alt: 'Zoomies on the grass' },
+  { src: photos.group, alt: 'The fluffy crew' },
+  { src: photos.murals, alt: 'The daycare room' },
+  { src: photos.grass, alt: 'Lawn lounging' },
+];
+---
+<section class="section bg-cream" id="events">
+  <div class="container">
+    <div class="section-head">
+      <TimeNote time="3pm" label="Pupdates" align="center" />
+      <h2 class="h2">Pupdates &amp; Events</h2>
+    </div>
+
+    <div class="events">
+      <article class="event wiggle">
+        <div class="event__art" style="background: var(--peach)">
+          <svg aria-hidden="true" viewBox="0 0 120 120"><path d="M34 50 L 44 104 H 76 L 86 50 Z" /><path d="M48 50 V 104 M 60 50 V 104 M 72 50 V 104" /><circle cx="42" cy="42" r="10" /><circle cx="60" cy="36" r="12" /><circle cx="78" cy="42" r="10" /></svg>
+        </div>
+        <div class="event__body">
+          <span class="eyebrow">Family Movie Night</span>
+          <h3>Including Your Doggo</h3>
+          <span class="event__tag">Coming Soon</span>
+        </div>
+      </article>
+      <article class="event wiggle">
+        <div class="event__art" style="background: var(--pink-tint)">
+          <svg aria-hidden="true" viewBox="0 0 120 120"><path d="M28 88 C 20 60, 44 30, 74 30 C 100 30, 104 56, 88 64 C 78 69, 84 82, 72 90 C 58 100, 34 102, 28 88 Z" /><circle cx="54" cy="46" r="5" /><circle cx="74" cy="46" r="5" /><circle cx="44" cy="68" r="5" /><path d="M96 96 L 70 70" /><path d="M100 100 L 108 108" /></svg>
+        </div>
+        <div class="event__body">
+          <span class="eyebrow">Fun-Raiser</span>
+          <h3>Sip &amp; Paint</h3>
+          <span class="event__tag">Coming Soon</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="insta">
+      <div class="insta__head">
+        <div>
+          <span class="hand insta__kicker">fresh off the camera roll</span>
+          <h3>{business.instagramHandle}</h3>
+        </div>
+        <Button href={business.instagram} variant="outline"><Icon name="instagram" size={20} />Follow on Instagram</Button>
+      </div>
+      <div class="insta__grid">
+        {feed.map((f) => (
+          <a href={business.instagram} class="wiggle"><Photo src={f.src} alt={f.alt} ratio="1 / 1" sizes="(max-width: 1023px) 33vw, 200px" /></a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .events { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
+  .event {
+    background: var(--white); border-radius: var(--r-card); overflow: hidden;
+    display: grid; grid-template-columns: 240px 1fr;
+  }
+  .event__art { display: flex; align-items: center; justify-content: center; min-height: 240px; }
+  .event__art svg {
+    width: 120px; height: 120px;
+    fill: none; stroke: var(--plum); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .event__body { padding: var(--s4); display: flex; flex-direction: column; justify-content: center; gap: var(--s1); }
+  .event__body h3 { font-size: var(--fs-h3); line-height: 1.15; }
+  .event__tag {
+    align-self: flex-start; margin-top: var(--s1);
+    display: inline-flex; align-items: center; height: 32px; padding: 0 var(--s2);
+    border-radius: var(--r-pill); background: var(--mint); font-weight: 700; font-size: 14px;
+  }
+
+  .insta { display: flex; flex-direction: column; gap: var(--s3); }
+  .insta__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--s2); }
+  .insta__head > div { display: flex; flex-direction: column; gap: 4px; }
+  .insta__kicker { font-size: 26px; color: var(--plum); }
+  .insta__head h3 { font-size: clamp(26px, 1.4rem + 0.6vw, 32px); }
+  .insta__grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--s2); }
+  .insta__grid a { display: block; border-radius: 16px; overflow: hidden; }
+  .insta__grid :global(img) { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+
+  @media (max-width: 1023px) {
+    .events { grid-template-columns: 1fr; }
+    .insta__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s1); }
+  }
+  @media (max-width: 599px) {
+    .event { grid-template-columns: 120px 1fr; }
+    .event__art { min-height: 160px; }
+    .event__art svg { width: 72px; height: 72px; }
+    .event__body { padding: var(--s3) var(--s2); }
+    .insta__head :global(.btn) { width: 100%; }
+    .insta__grid a { border-radius: 12px; }
+  }
+</style>

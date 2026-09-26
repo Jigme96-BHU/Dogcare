@@ -1,0 +1,45 @@
+---
+import Icon from '../Icon.astro';
+
+const items = [
+  { icon: 'eye', label: 'Supervised play', bg: 'var(--pink-tint)' },
+  { icon: 'home', label: 'Huge play space', bg: 'var(--mint-tint)' },
+  { icon: 'scissors', label: 'Professional grooming', bg: 'var(--peach-tint)' },
+  { icon: 'clock', label: 'Pick up whenever suits you', bg: 'var(--pink-tint)' },
+  { icon: 'heart', label: 'Local & family-run', bg: 'var(--mint-tint)' },
+] as const;
+---
+<section class="trust bg-cream" aria-label="Why owners choose us">
+  <ul class="container">
+    {items.map((item) => (
+      <li>
+        <span class="trust__icon" style={`background:${item.bg}`}><Icon name={item.icon} color="var(--deep-teal)" /></span>
+        <span>{item.label}</span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .trust { padding-block: var(--s5); }
+  ul {
+    list-style: none; margin-block: 0;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s3);
+  }
+  li {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    font-size: 16px; font-weight: 600; line-height: 1.3;
+  }
+  .trust__icon {
+    width: 48px; height: 48px; border-radius: var(--r-pill); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  @media (max-width: 1023px) {
+    ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s2); }
+    li { justify-content: flex-start; font-size: 15px; }
+  }
+  @media (max-width: 599px) {
+    .trust { padding-block: var(--s3); }
+    .trust__icon { width: 40px; height: 40px; }
+  }
+</style>

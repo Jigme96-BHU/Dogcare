@@ -1,0 +1,47 @@
+---
+// Peach header band for inner pages: nav, title, intro, optional buttons (slot).
+import Header from './Header.astro';
+import TimeNote from './TimeNote.astro';
+import Bone from './Bone.astro';
+
+interface Props {
+  title: string;
+  intro?: string;
+  note?: { time: string; label: string };
+}
+const { title, intro, note } = Astro.props;
+---
+<div class="page-head bg-peach">
+  <Bone style="right: 12%; top: 110px; width: 72px; rotate: 28deg; opacity: .55" />
+  <Bone style="left: 4%; bottom: 72px; width: 88px; rotate: -16deg; opacity: .55" />
+  <Header />
+  <div class="container page-head__body">
+    {note && <TimeNote time={note.time} label={note.label} />}
+    <h1>{title}</h1>
+    {intro && <p class="page-head__intro">{intro}</p>}
+    <div class="page-head__actions"><slot /></div>
+  </div>
+  <svg class="page-head__wave" aria-hidden="true" viewBox="0 0 1440 56" preserveAspectRatio="none">
+    <path d="M0 28 Q45 0 90 28 T180 28 T270 28 T360 28 T450 28 T540 28 T630 28 T720 28 T810 28 T900 28 T990 28 T1080 28 T1170 28 T1260 28 T1350 28 T1440 28 V56 H0 Z" fill="var(--cream)" />
+  </svg>
+</div>
+
+<style>
+  .page-head { position: relative; overflow: hidden; }
+  .page-head__body {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; gap: var(--s3);
+    padding-top: var(--s4); padding-bottom: clamp(88px, 9vw, 128px);
+  }
+  h1 {
+    font-size: clamp(2.5rem, 1.8rem + 3vw, 4rem); line-height: 1.05;
+    color: var(--deep-teal); max-width: 16ch;
+  }
+  .page-head__intro { font-size: var(--fs-lead); line-height: 1.6; max-width: 620px; }
+  .page-head__actions { display: flex; flex-wrap: wrap; gap: var(--s2); }
+  .page-head__actions:empty { display: none; }
+  .page-head__wave { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: clamp(32px, 4vw, 56px); display: block; }
+  @media (max-width: 599px) {
+    .page-head__actions :global(.btn) { width: 100%; }
+  }
+</style>

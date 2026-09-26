@@ -1,0 +1,33 @@
+---
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import Bone from '../Bone.astro';
+import { business } from '../../data/site';
+---
+<section class="rescue bg-pink" id="rescue">
+  <Bone style="left: 8%; top: 56px; width: 110px; rotate: -20deg; opacity: .5" />
+  <Bone style="right: 8%; top: 80px; width: 120px; rotate: 24deg; opacity: .5" />
+  <Bone class="rescue__extra" style="left: 17%; top: 200px; width: 64px; rotate: 40deg; opacity: .35" />
+  <Bone class="rescue__extra" style="right: 20%; top: 210px; width: 60px; rotate: -50deg; opacity: .35" />
+
+  <div class="container">
+    <Icon name="heart" size={40} color="var(--plum)" />
+    <h2>Rescue a Doggy Now!</h2>
+    <span class="hand">with our friends at Completely Rescued</span>
+    <Button href={business.rescue} variant="plum" size="lg"><Icon name="arrow" size={20} />Visit Completely Rescued</Button>
+  </div>
+</section>
+
+<style>
+  .rescue { position: relative; overflow: hidden; padding-block: clamp(64px, 7vw, 96px); }
+  .container {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: var(--s3); text-align: center;
+  }
+  h2 { font-size: clamp(38px, 1.8rem + 2.6vw, 64px); line-height: 1.05; color: var(--plum); }
+  .hand { font-size: 28px; color: var(--plum); }
+  @media (max-width: 599px) {
+    .rescue :global(.rescue__extra) { display: none; }
+    .rescue :global(.btn) { width: 100%; white-space: normal; }
+  }
+</style>

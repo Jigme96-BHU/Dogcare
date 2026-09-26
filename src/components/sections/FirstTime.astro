@@ -1,0 +1,70 @@
+---
+import Polaroid from '../Polaroid.astro';
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import { links } from '../../data/site';
+import { photos } from '../../data/images';
+
+const steps = [
+  { icon: 'chat', label: 'Fill in the first-timer form' },
+  { icon: 'phone', label: 'We call to chat about your pup' },
+  { icon: 'calendar', label: 'Book their very first day' },
+] as const;
+---
+<section class="section bg-teal">
+  <div class="container">
+    <div class="first">
+      <div class="first__copy">
+        <h2 class="h2 h2--ink">First time here?</h2>
+        <p class="first__intro">We’re so excited to have you join the Completely Dogcare family! Before your pup’s first day, we’ll give you a call to get to know them.</p>
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li class="wiggle">
+              <span class="steps__num">{i + 1}</span>
+              <Icon name={s.icon} size={26} color="var(--deep-teal)" />
+              <span class="steps__label">{s.label}</span>
+            </li>
+          ))}
+        </ol>
+        <div><Button href={links.firstTimers} variant="secondary" size="lg">Visit First Timers</Button></div>
+      </div>
+      <div class="first__photo">
+        <Polaroid src={photos.outside} sizes="360px" alt="The front of Completely Dogcare with its green yard" caption="see you at the front gate" ratio="4 / 3" tilt={3} tape="peach" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .first {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s3);
+    align-items: center;
+  }
+  .first__copy { grid-column: span 8; display: flex; flex-direction: column; gap: var(--s4); }
+  .first__photo { grid-column: 10 / span 3; display: flex; justify-content: center; }
+  .first__photo :global(.polaroid) { width: 100%; max-width: 360px; }
+  .first__intro { font-size: clamp(17px, 1rem + 0.2vw, 19px); line-height: 1.6; font-weight: 500; color: var(--ink); }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s3); }
+  .steps li {
+    background: var(--cream); border-radius: var(--r-card); padding: var(--s4);
+    display: flex; flex-direction: column; gap: var(--s1);
+  }
+  .steps__num {
+    width: 56px; height: 56px; margin-bottom: var(--s1); border-radius: var(--r-pill);
+    background: var(--teal); font-family: var(--font-head); font-size: 28px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps__label { font-family: var(--font-head); font-size: clamp(22px, 1.2rem + 0.4vw, 26px); line-height: 1.2; color: var(--deep-teal); }
+
+  @media (max-width: 1023px) {
+    .first { grid-template-columns: 1fr; row-gap: var(--s5); }
+    .first__copy, .first__photo { grid-column: 1 / -1; }
+    .first__photo :global(.polaroid) { max-width: 320px; }
+  }
+  @media (max-width: 699px) {
+    .steps { grid-template-columns: 1fr; gap: var(--s2); }
+    .steps li { flex-direction: row; align-items: center; gap: var(--s2); padding: var(--s2) var(--s3); }
+    .steps__num { width: 48px; height: 48px; margin: 0; font-size: 24px; flex-shrink: 0; }
+  }
+</style>

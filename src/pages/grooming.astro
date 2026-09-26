@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import FreshlyGroomed from '../components/sections/FreshlyGroomed.astro';
+import { links } from '../data/site';
+
+// [Add] your grooming services and prices.
+const services = [
+  { name: '[Service name, e.g. Full groom]', text: '[What’s included]', price: '[Price]' },
+  { name: '[Service name, e.g. Bath & tidy]', text: '[What’s included]', price: '[Price]' },
+  { name: '[Service name, e.g. Nail trim]', text: '[What’s included]', price: '[Price]' },
+];
+---
+<Layout title="Dog Grooming in Mitchell, Canberra | Completely Dogcare" description="Dog grooming in Mitchell, Canberra. Book a groom and your dog can stay for daycare in our huge play space. Pick them up whenever suits you.">
+  <PageHeader
+    title="Grooming"
+    intro="Book a groom and your dog can spend the rest of the day playing in our huge play space. Pick them up whenever suits you."
+    note={{ time: '11am', label: 'Pamper time' }}
+  >
+    <Button href={links.bookGrooming} variant="secondary" size="lg">Book Grooming</Button>
+  </PageHeader>
+
+  <main>
+    <section class="section bg-cream">
+      <div class="container">
+        <div class="groom-stay card card--pink">
+          <Icon name="sparkle" size={36} color="var(--pink)" />
+          <div class="prose">
+            <h2 class="h2">Groom &amp; Stay</h2>
+            <p>No rushing back for a pick-up time. Drop your dog off for their groom and they’ll stay on for daycare, playing with friends until you’re ready to collect them.</p>
+          </div>
+        </div>
+
+        <h2 class="h2" style="text-align:center">Services &amp; prices</h2>
+        <div class="grid-3">
+          {services.map((s) => (
+            <article class="card">
+              <h3 class="h3 placeholder">{s.name}</h3>
+              <p class="placeholder">{s.text}</p>
+              <span class="price placeholder">{s.price}</span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <FreshlyGroomed />
+  </main>
+</Layout>
+
+<style>
+  .groom-stay { flex-direction: row; align-items: flex-start; gap: var(--s3); }
+  .card .price { margin-top: auto; font-size: 32px; }
+  @media (max-width: 599px) { .groom-stay { flex-direction: column; } }
+</style>

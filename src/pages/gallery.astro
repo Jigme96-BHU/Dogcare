@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Polaroid from '../components/Polaroid.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import { business } from '../data/site';
+import { photos } from '../data/images';
+
+// To add photos: put them in src/assets/images, add them to src/data/images.ts, then list them here.
+const gallery = [
+  { src: photos.grass, alt: 'A happy dog stretched out on the lawn', caption: 'sunbathing on the lawn' },
+  { src: photos.group, alt: 'Four fluffy friends lined up', caption: 'the morning crew' },
+  { src: photos.play, alt: 'A pup up close by the ball pit', caption: 'ball pit o’clock' },
+  { src: photos.doodle, alt: 'A curly pup sitting pretty', caption: 'looking fluffy' },
+  { src: photos.space, alt: 'The bright indoor play space', caption: 'our indoor playground' },
+  { src: photos.eat, alt: 'A pup busy with a treat-dispensing toy', caption: 'breakfast puzzle' },
+  { src: photos.rest, alt: 'A pup settling onto a comfy bed', caption: 'nap time' },
+  { src: photos.repeat, alt: 'Pups playing together on the grass', caption: 'round two!' },
+  { src: photos.murals, alt: 'The daycare room with its painted murals', caption: 'our painted walls' },
+  { src: photos.mats, alt: 'Play mats, beds and toys in the daycare room', caption: 'ready for the day' },
+  { src: photos.outside, alt: 'The front of Completely Dogcare with its green yard', caption: 'see you at the front gate' },
+];
+const tilts = [-3, 2, -1, 3, -2, 1];
+const tapes = ['peach', 'mint', 'pink'] as const;
+---
+<Layout title="Gallery | Completely Dogcare" description="Photos from Completely Dogcare, doggy daycare and grooming in Mitchell, Canberra.">
+  <PageHeader title="Gallery" intro="A peek at a day at Completely Dogcare. For daily pupdates, follow us on Instagram and Facebook." note={{ time: '3pm', label: 'Pupdates' }}>
+    <Button href={business.instagram} variant="outline" size="lg"><Icon name="instagram" size={20} />Follow on Instagram</Button>
+  </PageHeader>
+
+  <main>
+    <section class="section bg-cream">
+      <div class="container">
+        <div class="gallery">
+          {gallery.map((g, i) => (
+            <Polaroid
+              src={g.src}
+              alt={g.alt}
+              caption={g.caption}
+              sizes="(max-width: 599px) 90vw, (max-width: 1023px) 45vw, 380px"
+              ratio="1 / 1"
+              tilt={tilts[i % tilts.length]}
+              tape={tapes[i % tapes.length]}
+              delay={((i % 5) + 1) as 1 | 2 | 3 | 4 | 5}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s6) var(--s5); }
+  @media (max-width: 1023px) { .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s5) var(--s3); } }
+  @media (max-width: 599px) { .gallery { grid-template-columns: 1fr; gap: var(--s5); padding-inline: var(--s2); } }
+</style>

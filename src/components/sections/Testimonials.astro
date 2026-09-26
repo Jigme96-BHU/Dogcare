@@ -1,0 +1,68 @@
+---
+import TimeNote from '../TimeNote.astro';
+
+// [Confirm] these are real customer reviews before going live.
+const reviews = [
+  { title: 'Amazing Care', name: 'Sarah Johnson', paper: '#FFFDF7', pin: 'var(--pink)', tilt: -2,
+    quote: 'Completely Dogcare is simply the best. The care and attention they provide to my dog is unparalleled. I highly recommend them to anyone looking for a doggy daycare.' },
+  { title: 'Great Staff', name: 'Mike Rodriguez', paper: 'var(--pink-tint)', pin: 'var(--deep-teal)', tilt: 1.5,
+    quote: 'The staff at Completely Dogcare are amazing. They are kind, caring, and always go above and beyond to ensure that my dog is happy and healthy. I wouldn’t trust anyone else with my furry friend.' },
+  { title: 'Loving Environment', name: 'Emily Chen', paper: 'var(--mint-tint)', pin: 'var(--plum)', tilt: -1,
+    quote: 'Completely Dogcare is the perfect place for my dog. The loving environment and attentive staff make all the difference. I can’t imagine taking my dog anywhere else.' },
+];
+---
+<section class="section bg-peach">
+  <div class="container">
+    <div class="section-head">
+      <TimeNote time="4:30pm" label="Happy tails" align="center" />
+      <h2 class="h2 h2--ink">What Our Customers Say</h2>
+    </div>
+
+    <div class="board">
+      {reviews.map((r, i) => (
+        <figure style={`rotate:${r.tilt}deg`}>
+          <div class="wiggle">
+            <div class:list={['note', 'drop', `d${i + 1}`]} style={`background:${r.paper}`}>
+              <span aria-hidden="true" class="pin" style={`background:${r.pin}`} />
+              <h3>{r.title}</h3>
+              <blockquote class="hand">{r.quote}</blockquote>
+              <figcaption class="hand">— {r.name}</figcaption>
+            </div>
+          </div>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .board {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s5); align-items: start;
+    background: var(--peach-deep); border-radius: 40px;
+    padding: var(--s7) var(--s6);
+    box-shadow: inset 0 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+  figure { margin: 0; }
+  .note {
+    position: relative; border-radius: 2px;
+    padding: var(--s5) var(--s4) var(--s4);
+    display: flex; flex-direction: column; gap: 12px;
+    box-shadow: 0 12px 24px rgba(46, 58, 59, 0.14);
+  }
+  .pin {
+    position: absolute; left: 50%; top: 12px; width: 18px; height: 18px; margin-left: -9px;
+    border-radius: var(--r-pill); box-shadow: 0 3px 4px rgba(0, 0, 0, 0.25);
+  }
+  h3 { font-size: 24px; color: var(--deep-teal); }
+  blockquote { margin: 0; font-weight: 500; font-size: 25px; line-height: 1.3; }
+  figcaption { font-size: 24px; color: var(--plum); text-align: right; }
+
+  @media (max-width: 1023px) {
+    .board { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; width: 100%; }
+  }
+  @media (max-width: 599px) {
+    .board { padding: var(--s5) var(--s3); gap: var(--s4); border-radius: var(--r-card); box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.6); }
+    .note { padding: var(--s5) var(--s3) var(--s3); }
+    blockquote { font-size: 23px; }
+  }
+</style>

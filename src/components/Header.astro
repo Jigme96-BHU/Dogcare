@@ -1,0 +1,172 @@
+---
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { nav, links } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => !href.includes('#') && (href.replace(/\/$/, '') || '/') === path;
+---
+<header class="header container">
+  <a href="/" class="header__logo" aria-label="Completely Dogcare home">
+    <img src="/images/logo.png" alt="Completely Dogcare" width="72" height="72" />
+  </a>
+
+  <button type="button" class="header__toggle" aria-expanded="false" aria-controls="main-nav">
+    <span class="visually-hidden">Menu</span>
+    <Icon name="menu" class="i-open" />
+    <Icon name="close" class="i-close" />
+  </button>
+
+  <nav class="header__nav" id="main-nav" aria-label="Main">
+    <ul class="menu">
+      {nav.map((item, i) =>
+        'children' in item ? (
+          <li class="menu__group">
+            <button
+              type="button"
+              class:list={['menu__link', 'menu__trigger', item.children.some((c) => isCurrent(c.href)) && 'is-active']}
+              aria-expanded="false"
+              aria-controls={`submenu-${i}`}
+            >
+              {item.label}<Icon name="chevron" size={18} class="menu__chevron" />
+            </button>
+            <ul class="submenu" id={`submenu-${i}`}>
+              {item.children.map((c) => (
+                <li><a href={c.href} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
+              ))}
+            </ul>
+          </li>
+        ) : (
+          <li><a class="menu__link" href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        )
+      )}
+    </ul>
+    <Button href={links.book} class="header__book">Book Now</Button>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.header__toggle');
+  const triggers = document.querySelectorAll<HTMLButtonElement>('.menu__trigger');
+
+  const closeSubmenus = (except?: Element) =>
+    triggers.forEach((t) => t !== except && t.setAttribute('aria-expanded', 'false'));
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    if (open) closeSubmenus();
+  });
+
+  triggers.forEach((t) =>
+    t.addEventListener('click', () => {
+      const open = t.getAttribute('aria-expanded') === 'true';
+      closeSubmenus(t);
+      t.setAttribute('aria-expanded', String(!open));
+    })
+  );
+
+  // Close menus after following a link, on Escape, and when clicking elsewhere.
+  document.querySelectorAll('#main-nav a').forEach((link) =>
+    link.addEventListener('click', () => {
+      toggle?.setAttribute('aria-expanded', 'false');
+      closeSubmenus();
+    })
+  );
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = [...triggers].find((t) => t.getAttribute('aria-expanded') === 'true');
+    closeSubmenus();
+    open?.focus();
+  });
+  document.addEventListener('click', (e) => {
+    if (!(e.target as Element).closest('.menu__group')) closeSubmenus();
+  });
+</script>
+
+<style>
+  .header {
+    position: relative; z-index: 10;
+    height: clamp(72px, 7vw, 96px);
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  }
+  .header__logo img { width: clamp(56px, 5vw, 72px); height: auto; }
+
+  .header__nav { display: flex; align-items: center; gap: var(--s4); }
+  .menu { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: var(--s4); }
+
+  .menu__link {
+    display: inline-flex; align-items: center; gap: 2px; padding: 8px 0;
+    font: inherit; font-size: 15px; font-weight: 500; color: var(--ink); text-decoration: none;
+    background: linear-gradient(var(--pink), var(--pink)) left bottom / 0 3px no-repeat;
+    transition: background-size .2s ease;
+  }
+  .menu__link:hover, .menu__link[aria-current='page'], .menu__link.is-active { background-size: 100% 3px; }
+  .menu__trigger { border: 0; cursor: pointer; }
+  .menu__trigger :global(.menu__chevron) { transition: rotate .2s ease; }
+  .menu__trigger[aria-expanded='true'] :global(.menu__chevron) { rotate: 180deg; }
+
+  /* Services drop-down card */
+  .menu__group { position: relative; }
+  .submenu {
+    list-style: none; margin: 0;
+    display: none;
+    position: absolute; top: 100%; left: -24px; z-index: 5;
+    min-width: 220px; padding: var(--s1);
+    background: var(--white); border-radius: 24px;
+    box-shadow: 0 16px 32px rgba(46, 58, 59, 0.18);
+  }
+  /* invisible bridge so the menu doesn't close while the pointer moves down to it */
+  .submenu::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+  .menu__trigger[aria-expanded='true'] + .submenu { display: block; }
+  .submenu a {
+    display: block; padding: 12px var(--s2); border-radius: 16px;
+    font-size: 15px; font-weight: 600; color: var(--ink); text-decoration: none;
+  }
+  .submenu a:hover, .submenu a[aria-current='page'] { background: var(--pink-tint); color: var(--plum); }
+
+  @media (min-width: 1080px) and (hover: hover) {
+    .menu__group:hover .submenu { display: block; }
+    .submenu { top: calc(100% + 8px); }
+  }
+
+  .header__toggle {
+    display: none;
+    width: 48px; height: 48px; padding: 0;
+    border-radius: var(--r-pill); border: 2px solid var(--ink);
+    background: transparent; color: var(--ink);
+    align-items: center; justify-content: center; cursor: pointer;
+  }
+  .header__toggle :global(.i-close) { display: none; }
+  .header__toggle[aria-expanded='true'] :global(.i-open) { display: none; }
+  .header__toggle[aria-expanded='true'] :global(.i-close) { display: block; }
+
+  /* Below 1080px the nav folds into a drop-down panel; Services expands in place */
+  @media (max-width: 1079px) {
+    .header__toggle { display: inline-flex; }
+    .header__nav {
+      display: none;
+      position: absolute; top: 100%; left: var(--gutter); right: var(--gutter);
+      flex-direction: column; align-items: stretch; gap: var(--s2);
+      padding: var(--s3); background: var(--white);
+      border-radius: var(--r-card); box-shadow: 0 16px 32px rgba(46, 58, 59, 0.18);
+      max-height: calc(100dvh - 96px); overflow-y: auto;
+    }
+    .header__toggle[aria-expanded='true'] + .header__nav { display: flex; }
+    .menu { flex-direction: column; align-items: stretch; gap: 0; }
+    .menu > li { border-bottom: 2px dashed var(--line); }
+    .menu__link {
+      display: flex; width: 100%; padding: 12px 8px;
+      font-size: 17px; background: none; text-align: left;
+    }
+    .menu__link[aria-current='page'], .menu__link.is-active { color: var(--deep-teal); font-weight: 700; }
+    .menu__trigger { justify-content: space-between; }
+    .submenu {
+      position: static; min-width: 0; box-shadow: none; border-radius: 0;
+      padding: 0 0 var(--s1) var(--s2); background: none;
+    }
+    .submenu::before { display: none; }
+    .submenu a { font-size: 16px; font-weight: 500; padding: 10px 8px; }
+    .header__nav :global(.header__book) { height: 56px; font-size: 17px; }
+  }
+</style>

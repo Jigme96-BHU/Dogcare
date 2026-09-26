@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import { business, links, pricing, wix } from '../data/site';
+---
+<Layout title="Book | Completely Dogcare" description="Book doggy daycare or grooming at Completely Dogcare in Mitchell, Canberra. First time? Start with our first-timer form.">
+  <PageHeader
+    title="Let’s get your pup booked in"
+    intro="Open Tuesday to Thursday, 7:30am – 6pm. First time with us? Start with the first-timer form so we can get to know your dog."
+    note={{ time: '7:30am', label: 'Drop-off' }}
+  />
+  <main>
+    <section class="section bg-cream">
+      <div class="container">
+        <div class="grid-3">
+          <article class="card card--pink">
+            <Icon name="heart" size={32} color="var(--pink)" />
+            <h2 class="h3">First time here?</h2>
+            <p>New dogs need a quick chat with us before their first session. Fill in the form, we’ll call you, and once your pup is approved you can book their first day.</p>
+            <div><Button href={links.firstTimers}>Start here</Button></div>
+          </article>
+
+          <article class="card">
+            <Icon name="calendar" size={32} color="var(--deep-teal)" />
+            <h2 class="h3">Returning doggy</h2>
+            <p>Already approved? Book a casual day, or grab a session pack if you come regularly.</p>
+            <ul class="tick-list">
+              <li>Casual session: {pricing.casual}</li>
+              {pricing.packs.map((p) => <li>{p.name}: {p.price} ({p.note.toLowerCase()})</li>)}
+            </ul>
+            <div class="book-actions">
+              <Button href={wix.casualSession} variant="secondary">Book a casual day</Button>
+              <Button href={wix.sessionPacks} variant="outline">Buy a pack</Button>
+            </div>
+          </article>
+
+          <article class="card" id="grooming">
+            <Icon name="scissors" size={32} color="var(--deep-teal)" />
+            <h2 class="h3">Grooming</h2>
+            <p>Book a groom and your dog can stay and play for the rest of the day. Pick them up whenever suits you.</p>
+            <p class="placeholder">[Grooming booking link: add once the booking system is set up]</p>
+            <div><Button href="/#contact" variant="secondary">Enquire about grooming</Button></div>
+          </article>
+        </div>
+
+        <p class="book-help">
+          Questions first? Call <a href={business.phoneHref}>{business.phone}</a>, email
+          <a href={`mailto:${business.email}`}>{business.email}</a>, or check the <a href={links.faq}>FAQ</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .book-actions { display: flex; flex-wrap: wrap; gap: var(--s1); margin-top: auto; }
+  .card > div:last-child { margin-top: auto; }
+  .book-help { text-align: center; font-size: 17px; line-height: 1.6; }
+</style>

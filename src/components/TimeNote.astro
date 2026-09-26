@@ -1,0 +1,38 @@
+---
+// Handwritten "7:30am · Drop-off" note, taped on. Walks the reader through the day.
+import Icon from './Icon.astro';
+
+interface Props {
+  time: string;
+  label: string;
+  tape?: 'mint' | 'white';
+  align?: 'start' | 'center';
+}
+const { time, label, tape = 'mint', align = 'start' } = Astro.props;
+---
+<div class:list={['note', `note--${align}`]}>
+  <span aria-hidden="true" class:list={['note__tape', `note__tape--${tape}`]} />
+  <span class="note__paper hand">
+    <Icon name="clock" size={20} color="var(--pink)" />
+    <b>{time}</b> · {label}
+  </span>
+</div>
+
+<style>
+  .note { position: relative; display: inline-flex; rotate: -3deg; align-self: flex-start; }
+  .note--center { align-self: center; }
+  .note__tape {
+    position: absolute; left: 50%; top: -10px;
+    width: 56px; height: 18px; margin-left: -28px; rotate: 4deg;
+  }
+  .note__tape--mint { background: rgba(155, 204, 172, 0.8); }
+  .note__tape--white { background: rgba(255, 255, 255, 0.7); }
+  .note__paper {
+    display: inline-flex; align-items: center; gap: var(--s1);
+    background: var(--white);
+    padding: 4px 16px 4px 12px; border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(46, 58, 59, 0.12);
+    font-size: clamp(22px, 1.2rem + 0.4vw, 26px); line-height: 1.3; color: var(--ink);
+  }
+  b { font-weight: 700; color: var(--plum); }
+</style>

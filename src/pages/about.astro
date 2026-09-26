@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Polaroid from '../components/Polaroid.astro';
+import Button from '../components/Button.astro';
+import Rescue from '../components/sections/Rescue.astro';
+import { links, daycareIncludes } from '../data/site';
+import { photos } from '../data/images';
+---
+<Layout title="About | Completely Dogcare" description="Completely Dogcare is a boutique doggy daycare in Mitchell, Canberra, partnering with Completely Rescued to give rescue dogs a new lease on life.">
+  <PageHeader
+    title="About Completely Dogcare"
+    intro="Canine wellbeing is our passion. Our experienced team, in collaboration with Completely Rescued, gives your dog top-notch care, from socialising to grooming."
+    note={{ time: '1pm', label: 'Nap time' }}
+  >
+    <Button href={links.book} size="lg">Book Now</Button>
+  </PageHeader>
+
+  <main>
+    <section class="section bg-cream">
+      <div class="container">
+        <div class="split">
+          <div style="display:flex; justify-content:center">
+            <Polaroid placeholder="[Team photo]" caption="the Completely Dogcare family" ratio="5 / 4" tilt={-2} tape="peach" style="width:100%; max-width:520px" />
+          </div>
+          <div class="prose">
+            <h2 class="h2">Who we are</h2>
+            <p>At Completely Dogcare, we believe every dog deserves the best care possible. Our boutique doggy daycare gives your furry friend a safe, fun place to socialise and play, with experienced staff who make sure they get all the love and attention they deserve.</p>
+            <p class="placeholder">[Owner’s story, in their own words: how Completely Dogcare started and why they love it. Two or three sentences.]</p>
+            <span class="hand sign">— [Owner’s name]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-mint">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2 h2--ink">What we do</h2>
+          <p class="lead">Completely Dogcare isn’t just a daycare. It’s a haven for your dog.</p>
+        </div>
+        <div class="grid-3">
+          {daycareIncludes.map((i) => (
+            <article class="card wiggle">
+              <h3 class="h3">{i.title}</h3>
+              <p>{i.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-cream">
+      <div class="container">
+        <div class="split">
+          <div class="prose">
+            <h2 class="h2">Our mission</h2>
+            <p>To provide a safe, engaging and nurturing space for dogs of all backgrounds. Every dog deserves a place where they can experience joy, companionship and exceptional care.</p>
+            <p>Our commitment goes beyond looking after your furry friends. We want to build a community where rescue dogs get a new lease on life, mingling with other dogs and getting the love and care they deserve. That’s why we partner with Completely Rescued.</p>
+          </div>
+          <div style="display:flex; justify-content:center">
+            <Polaroid src={photos.group} sizes="(max-width: 1023px) 90vw, 440px" alt="Four fluffy friends lined up" caption="friends for life" ratio="1 / 1" tilt={3} tape="mint" style="width:100%; max-width:440px" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Rescue />
+  </main>
+</Layout>
+
+<style>
+  .sign { font-size: 28px; color: var(--plum); }
+  .lead { font-size: var(--fs-lead); }
+</style>

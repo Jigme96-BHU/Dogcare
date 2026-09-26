@@ -1,0 +1,64 @@
+---
+import Polaroid from '../Polaroid.astro';
+import { photos } from '../../data/images';
+
+const day = [
+  { time: '8am', step: 'Eat', src: photos.eat, alt: 'A pup busy with a treat-dispensing toy', caption: 'breakfast puzzle', tilt: -3 },
+  { time: '10am', step: 'Play', src: photos.play, alt: 'A pup up close by the ball pit', caption: 'ball pit o’clock', tilt: 2 },
+  { time: '11am', step: 'Pamper', src: photos.doodle, alt: 'A curly pup sitting pretty', caption: 'looking fluffy', tilt: -2 },
+  { time: '1pm', step: 'Rest', src: photos.rest, alt: 'A pup settling onto a comfy bed', caption: 'nap time', tilt: 3 },
+  { time: '3pm', step: 'Repeat', src: photos.repeat, alt: 'Pups playing together on the grass', caption: 'round two!', tilt: -1 },
+];
+---
+<section class="section bg-teal">
+  <div class="container">
+    <h2 class="h2 h2--ink" style="text-align:center">A Day in the Life of Our Pups!</h2>
+    <div class="timeline-scroll">
+      <ol class="timeline">
+        {day.map((d, i) => (
+          <li>
+            <span class="timeline__time hand">{d.time}</span>
+            <Polaroid src={d.src} sizes="(max-width: 900px) 188px, 232px" alt={d.alt} caption={d.caption} ratio="4 / 5" tilt={d.tilt} delay={(i + 1) as 1 | 2 | 3 | 4 | 5} />
+            <span class="timeline__step">{d.step}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    position: relative; list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(16px, 3vw, 40px);
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 18px;
+    border-top: 3px dashed rgba(46, 58, 59, 0.35);
+  }
+  li { display: flex; flex-direction: column; align-items: center; gap: var(--s2); }
+  li :global(.polaroid) { width: 100%; }
+  .timeline__time {
+    position: relative; z-index: 1;
+    font-size: clamp(22px, 1.2rem + 0.4vw, 26px); line-height: 1.5;
+    background: var(--cream); border-radius: var(--r-pill); padding: 0 var(--s2);
+  }
+  .timeline__step { font-family: var(--font-head); font-size: clamp(24px, 1.2rem + 0.8vw, 30px); }
+
+  /* Narrow screens: swipe along the day instead of squashing it */
+  @media (max-width: 899px) {
+    .timeline-scroll {
+      margin-inline: calc(-1 * var(--gutter));
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .timeline-scroll::-webkit-scrollbar { display: none; }
+    .timeline {
+      grid-template-columns: repeat(5, 188px); gap: var(--s3);
+      width: max-content; padding: var(--s1) var(--gutter) var(--s2);
+    }
+    li { scroll-snap-align: center; }
+    li :global(.polaroid__card) { padding: 8px 8px 0; }
+    li :global(figcaption) { font-size: 20px; padding: 8px 4px 12px; }
+  }
+</style>

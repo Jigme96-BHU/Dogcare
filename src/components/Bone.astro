@@ -1,0 +1,19 @@
+---
+// Decorative bone doodle. Position it with the `style` prop.
+interface Props {
+  style?: string;
+  class?: string;
+}
+const { style, class: className } = Astro.props;
+---
+<svg aria-hidden="true" class:list={['bone', className]} viewBox="0 0 64 28" style={style}>
+  <g fill="#FFFFFF">
+    <circle cx="9" cy="8" r="7" /><circle cx="9" cy="20" r="7" />
+    <circle cx="55" cy="8" r="7" /><circle cx="55" cy="20" r="7" />
+    <rect x="9" y="7" width="46" height="14" />
+  </g>
+</svg>
+
+<style>
+  .bone { position: absolute; pointer-events: none; }
+</style>

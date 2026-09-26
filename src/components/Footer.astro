@@ -1,0 +1,81 @@
+---
+import Icon from './Icon.astro';
+import { business, navLinks, links } from '../data/site';
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="/images/logo.png" alt="Completely Dogcare" width="96" height="96" loading="lazy" />
+        <span class="hand footer__wag">See you next wag!</span>
+        <div class="footer__social">
+          <a href={business.facebook} aria-label="Completely Dogcare on Facebook"><Icon name="facebook" /></a>
+          <a href={business.instagram} aria-label="Completely Dogcare on Instagram"><Icon name="instagram" /></a>
+        </div>
+      </div>
+
+      <div>
+        <span class="footer__label">Explore</span>
+        <nav aria-label="Footer">
+          {navLinks.map((item) => <a href={item.href}>{item.label}</a>)}
+          <a href={links.faq}>FAQ</a>
+        </nav>
+      </div>
+
+      <div class="footer__hello">
+        <span class="footer__label">Say Hello</span>
+        <a href={business.phoneHref}>{business.phone}</a>
+        <a href={`mailto:${business.email}`}>{business.email}</a>
+        <span>{business.address}<br />{business.hours}</span>
+      </div>
+    </div>
+
+    <div class="footer__base">
+      <span>&copy; Completely Dogcare</span>
+      <span>Website by ReWorded</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--deep-teal); color: var(--cream); padding: var(--s10) 0 var(--s5); }
+  .footer .container { display: flex; flex-direction: column; gap: var(--s6); }
+  .footer__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s5) var(--s3); }
+  .footer__brand { display: flex; flex-direction: column; gap: var(--s2); }
+  .footer__brand img { width: 96px; height: 96px; background: var(--cream); border-radius: var(--r-pill); }
+  .footer__wag { font-size: 40px; color: var(--peach); line-height: 1; }
+  .footer__social { display: flex; gap: var(--s1); }
+  .footer__social a {
+    width: 48px; height: 48px; border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, 0.14); color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .footer__social a:hover { background: rgba(255, 255, 255, 0.26); color: var(--cream); }
+
+  .footer__label {
+    display: block; margin-bottom: var(--s1);
+    font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mint);
+  }
+  .footer nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--s3); }
+  .footer nav a {
+    color: var(--cream); text-decoration: none; font-size: 15px;
+    min-height: 40px; display: flex; align-items: center;
+  }
+  .footer a:hover { color: var(--peach); }
+
+  .footer__hello { display: flex; flex-direction: column; gap: var(--s1); }
+  .footer__hello a { color: var(--cream); font-weight: 600; text-decoration: none; font-size: 16px; overflow-wrap: anywhere; }
+  .footer__hello span:last-child { font-size: 15px; line-height: 1.6; }
+
+  .footer__base {
+    border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: var(--s3);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s1); font-size: 14px;
+  }
+
+  @media (max-width: 899px) {
+    .footer__grid { grid-template-columns: 1fr; }
+    .footer nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* leave room for the sticky Book Now bar */
+    .footer { padding-bottom: calc(var(--s5) + 80px); }
+  }
+</style>

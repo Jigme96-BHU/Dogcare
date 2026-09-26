@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Button from '../components/Button.astro';
+import Polaroid from '../components/Polaroid.astro';
+import DayInTheLife from '../components/sections/DayInTheLife.astro';
+import { links, pricing, daycareIncludes } from '../data/site';
+import { photos } from '../data/images';
+---
+<Layout title="Doggy Daycare in Mitchell, Canberra | Completely Dogcare" description="Supervised doggy daycare in Mitchell, Canberra, Tuesday to Thursday 7:30am – 6pm. Casual days, or save with a session pack.">
+  <PageHeader
+    title="Doggy Daycare"
+    intro="A safe, fun place for your dog to play, socialise and rest while you’re at work. Tuesday to Thursday, 7:30am – 6pm."
+    note={{ time: '8am', label: 'Let’s play' }}
+  >
+    <Button href={links.bookDaycare} size="lg">Book Daycare</Button>
+    <Button href={links.tour} variant="outline" size="lg">Take a Tour</Button>
+  </PageHeader>
+
+  <main>
+    <section class="section bg-cream">
+      <div class="container">
+        <div class="split">
+          <div style="display:flex; justify-content:center">
+            <Polaroid src={photos.space} sizes="(max-width: 1023px) 90vw, 520px" alt="The bright indoor play space" caption="our indoor playground" ratio="4 / 3" tilt={-2} tape="mint" style="width:100%; max-width:520px" />
+          </div>
+          <div class="prose">
+            <h2 class="h2">What’s included</h2>
+            <ul class="tick-list">
+              {daycareIncludes.map((i) => <li><span><b>{i.title}.</b> {i.text}</span></li>)}
+            </ul>
+            <p class="ratio">Around <b>one staff member for every 10 dogs</b>, with dogs grouped by size, temperament and energy level.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <DayInTheLife />
+
+    <section class="section bg-cream" id="packs">
+      <div class="container">
+        <h2 class="h2" style="text-align:center">Prices</h2>
+        <div class="grid-3">
+          <article class="card">
+            <h3 class="h3">Casual day</h3>
+            <span class="price placeholder">{pricing.casual}</span>
+            <p>One day of play whenever you need it.</p>
+          </article>
+          {pricing.packs.map((p, i) => (
+            <article class:list={['card', i === 1 && 'card--pink']}>
+              <h3 class="h3">{p.name}</h3>
+              <span class="price">{p.price}</span>
+              <p>{p.note}. Perfect for regulars.</p>
+            </article>
+          ))}
+        </div>
+        <div style="display:flex; justify-content:center">
+          <Button href={links.bookDaycare} size="lg">Book Daycare</Button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-teal">
+      <div class="container cta-band">
+        <h2 class="h2 h2--ink">New to Completely Dogcare?</h2>
+        <p class="lead">We have a quick chat with every new family before their first day.</p>
+        <div class="actions">
+          <Button href={links.firstTimers} variant="secondary" size="lg">First Timers</Button>
+          <Button href={links.faq} variant="outline" size="lg">Read the FAQ</Button>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .ratio { font-size: 17px; line-height: 1.6; }
+  .lead { font-size: var(--fs-lead); }
+  .card .price { margin-block: var(--s1); }
+</style>

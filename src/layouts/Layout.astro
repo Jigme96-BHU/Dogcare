@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import { business } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Completely Dogcare | Doggy Daycare & Grooming in Mitchell, Canberra',
+  description = 'Doggy daycare and grooming under one roof in Mitchell, Canberra. Book a groom and your dog can stay and play in our huge play space. Pick them up whenever suits you.',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? business.url).href;
+const ogImage = new URL('/og-image.jpg', Astro.site ?? business.url).href;
+
+// Business details for Google (shows address, hours and phone in search results).
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: business.name,
+  description: 'Doggy daycare and grooming in Mitchell, Canberra.',
+  url: business.url,
+  logo: new URL('/images/logo.png', business.url).href,
+  image: ogImage,
+  telephone: '+61408111046',
+  email: business.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '10/12 Cheney Pl',
+    addressLocality: 'Mitchell',
+    addressRegion: 'ACT',
+    postalCode: '2911',
+    addressCountry: 'AU',
+  },
+  areaServed: 'Canberra',
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Tuesday', 'Wednesday', 'Thursday'],
+    opens: '07:30',
+    closes: '18:00',
+  }],
+  hasMap: business.map,
+  sameAs: [business.facebook, business.instagram],
+};
+---
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.png" />
+    <meta name="theme-color" content="#FFD3BD" />
+
+    <!-- Link previews (Facebook, Messenger, iMessage, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:locale" content="en_AU" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Chelsea+Market&family=Work+Sans:wght@400;500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <slot />
+    <Footer />
+    <MobileBar />
+  </body>
+</html>

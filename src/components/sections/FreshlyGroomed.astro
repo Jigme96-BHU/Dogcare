@@ -1,0 +1,59 @@
+---
+import Polaroid from '../Polaroid.astro';
+import TimeNote from '../TimeNote.astro';
+import Button from '../Button.astro';
+import { links } from '../../data/site';
+
+// [Add] real before/after photos: set `before` and `after` to image paths.
+const pairs = [
+  { caption: '[Dog’s name], fresh from the bath', before: undefined, after: undefined },
+  { caption: '[Dog’s name] got the full fluff', before: undefined, after: undefined },
+  { caption: '[Dog’s name], trimmed & tidy', before: undefined, after: undefined },
+];
+---
+<section class="section bg-mint">
+  <span aria-hidden="true" class="bubble b1" style="left: 5%; top: 380px; width: 30px; height: 30px" />
+  <span aria-hidden="true" class="bubble b2" style="left: 90%; top: 300px; width: 40px; height: 40px" />
+  <span aria-hidden="true" class="bubble b3" style="left: 85%; top: 560px; width: 18px; height: 18px" />
+  <span aria-hidden="true" class="bubble b4" style="left: 10%; top: 620px; width: 20px; height: 20px" />
+
+  <div class="container">
+    <div class="section-head">
+      <TimeNote time="12pm" label="Fresh & fluffy" tape="white" align="center" />
+      <h2 class="h2 h2--ink">Freshly Groomed</h2>
+    </div>
+
+    <div class="pairs">
+      {pairs.map((p, i) => (
+        <div class="pair">
+          <div class="pair__photos">
+            <Polaroid small src={p.before} placeholder="[Before photo]" alt={`${p.caption}, before`} caption="before" tilt={-4} tape="white" delay={(i + 1) as 1 | 2 | 3} />
+            <Polaroid small class="pair__after" src={p.after} placeholder="[After photo]" alt={`${p.caption}, after`} caption="after!" tilt={3} tape="pink" delay={(i + 2) as 2 | 3 | 4} />
+          </div>
+          <span class="pair__caption hand placeholder">{p.caption}</span>
+        </div>
+      ))}
+    </div>
+
+    <div style="display:flex; justify-content:center">
+      <Button href={links.bookGrooming} variant="secondary" size="lg">Book Grooming</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .container { position: relative; z-index: 1; }
+  .pairs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); justify-items: center; }
+  .pair { display: flex; flex-direction: column; align-items: center; gap: var(--s1); width: 100%; max-width: 384px; }
+  .pair__photos { display: flex; align-items: flex-start; }
+  .pair__photos :global(.polaroid) { width: 184px; flex-shrink: 1; min-width: 0; }
+  .pair__photos :global(.pair__after) { margin-top: var(--s3); margin-left: -16px; }
+  .pair__caption { font-size: 24px; text-align: center; color: var(--ink); }
+
+  @media (max-width: 1023px) {
+    .pairs { grid-template-columns: 1fr; gap: var(--s5); }
+  }
+  @media (max-width: 599px) {
+    .pair__photos :global(.polaroid) { width: 50%; }
+  }
+</style>
